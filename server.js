@@ -22,6 +22,7 @@ var serialport = new SerialPort(
 
 var HASHTAG = 'Happy Halloween';
 var tweetCount = 0;
+var tweetPolarity = 0;
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
