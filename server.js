@@ -3,6 +3,14 @@ var express = require('express');
 var app = express();
 var server = http.createServer(app).listen(3000);
 var SerialPort = require('serialport').SerialPort;
+var twitter = require('ntwitter');
+
+var twit = new twitter({
+  consumer_key: 'fntGjoIFh43OOARjCy5t9l4cm',
+  consumer_secret: 'bEylHfjrxDK4CzYGguxF1F0lCRqFl1w92tW0OdsPfM8VvDJiuO',
+  access_token_key: '61876585-773CaAgTosXC0Ss5UUpJ4vHjtOxu3NjLHKa7g3PPt',
+  access_token_secret: 'eLjTEXI6Wof6liyE9ygZGE55r5ZW7kH1bT7qR72kpp8qC'
+});
 
 var serialport = new SerialPort(
     '/dev/tty.usbmodem1421', {
@@ -12,7 +20,8 @@ var serialport = new SerialPort(
     stopBits: 1
     }, false);
 
-console.log('Enter tweets;polarity..\n');
+var HASHTAG = 'Happy Halloween';
+var tweetCount = 0;
 
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
@@ -29,3 +38,16 @@ var sendData = function(data){
         serialport.close();
     });
 };
+
+twit.verifyCredentials(function (err, data) {
+    if ( err ) return console.error("Error connecting to Twitter: " + err);
+    stream = twit.stream('statuses/filter', {
+        'track': HASHTAG
+    }, function (stream) {
+        console.log("Monitoring Twitter for \'" + HASHTAG + "\'...  Logging Twitter traffic.");
+        stream.on('data', function (data) {
+            tweetCount++;
+            console.log("Tweet #" + tweetCount + ":  " + data.text);
+        });
+    });
+});
