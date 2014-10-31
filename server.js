@@ -31,6 +31,7 @@ var serialport = new SerialPort(
  * Define global vars
  */
 var HASHTAG = '';
+var updateRate = 50;
 var tweetCount = 0;
 var tweetTotalPolarity = 0;
 var tweetPolarity = 0;
@@ -54,7 +55,7 @@ var init = function () {
                         tweetPolarity = tweetTotalPolarity / tweetCount;
                         tweet = data.text.replace(/(\r\n|\n|\r)/gm,'');
                         console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + tweet);
-                        if ( tweetCount % 5 === 0 ) {
+                        if ( tweetCount % updateRate === 0 ) {
                             process.nextTick(function(){
                                 sendData(tweetCount + ';' + tweetPolarity);
                             });
