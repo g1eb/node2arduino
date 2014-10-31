@@ -26,26 +26,6 @@ var tweetCount = 0;
 var tweetTotalPolarity = 0;
 var tweetPolarity = 0;
 
-console.log('Enter search term: \n');
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', function (input) {
-    if ( !input ) return;
-    input = input.replace(/(\r\n|\n|\r)/gm,"");
-    console.log('Initializing sentiment analysis for \"' + input + '\", hold on.....\n\n\n');
-    HASHTAG = input;
-    init();
-});
-
-var sendData = function(data){
-    serialport.open( function(err) {
-        if ( err ) return console.error('Could not open Serial Port...');
-        console.log('Sending to port: ' + data);
-        serialport.write(data);
-        serialport.close();
-    });
-};
-
 var init = function () {
     twit.verifyCredentials(function (err, data) {
         if ( err ) return console.error("Error connecting to Twitter: " + err);
@@ -66,3 +46,26 @@ var init = function () {
         });
     });
 };
+
+var sendData = function(data){
+    serialport.open( function(err) {
+        if ( err ) return console.error('Could not open Serial Port...');
+        console.log('Sending to port: ' + data);
+        serialport.write(data);
+        serialport.close();
+    });
+};
+
+console.log('Enter search term: \n');
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', function (input) {
+    input = input.replace(/(\r\n|\n|\r)/gm,"");
+    if ( !input ) {
+        console.log('Got no keywords, shutting down. :(\n');
+        return process.exit(1);
+    }
+    console.log('Initializing sentiment analysis for \"' + input + '\", hold on.....\n\n\n');
+    HASHTAG = input;
+    init();
+});
