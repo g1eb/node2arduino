@@ -24,13 +24,6 @@ var HASHTAG = 'Happy Halloween';
 var tweetCount = 0;
 var tweetPolarity = 0;
 
-process.stdin.resume();
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', function (input) {
-    if ( !input ) return;
-    sendData(input.replace(/(\r\n|\n|\r)/gm,''));
-});
-
 var sendData = function(data){
     serialport.open( function(err) {
         if ( err ) return console.error('Could not open Serial Port...');
