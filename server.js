@@ -4,6 +4,7 @@ var app = express();
 var server = http.createServer(app).listen(3000);
 var SerialPort = require('serialport').SerialPort;
 var twitter = require('ntwitter');
+var sentiment = require('sentiment');
 
 var twit = new twitter({
   consumer_key: 'fntGjoIFh43OOARjCy5t9l4cm',
@@ -22,6 +23,7 @@ var serialport = new SerialPort(
 
 var HASHTAG = 'Happy Halloween';
 var tweetCount = 0;
+var tweetTotalPolarity = 0;
 var tweetPolarity = 0;
 
 var sendData = function(data){
@@ -40,11 +42,13 @@ twit.verifyCredentials(function (err, data) {
     }, function (stream) {
         console.log("Monitoring Twitter for \'" + HASHTAG + "\'...  Logging Twitter traffic.");
         stream.on('data', function (data) {
-            tweetCount++;
-
-            // Update the console every 10 analyzed tweets
-            if (tweetCount % 10 === 0) {
-                console.log("Tweet #" + tweetCount + ":  " + data.text);
+            if (data.lang === 'en') {
+                sentiment(data.text, function (err, result) {
+                    tweetCount++;
+                    tweetTotalPolarity += result.score;
+                    tweetPolarity = tweetTotalPolarity / tweetCount;
+                    console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + data.text);
+                });
             }
         });
     });
