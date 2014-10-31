@@ -47,7 +47,11 @@ twit.verifyCredentials(function (err, data) {
         console.log("Monitoring Twitter for \'" + HASHTAG + "\'...  Logging Twitter traffic.");
         stream.on('data', function (data) {
             tweetCount++;
-            console.log("Tweet #" + tweetCount + ":  " + data.text);
+
+            // Update the console every 10 analyzed tweets
+            if (tweetCount % 10 === 0) {
+                console.log("Tweet #" + tweetCount + ":  " + data.text);
+            }
         });
     });
 });
