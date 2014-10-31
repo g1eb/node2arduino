@@ -52,7 +52,11 @@ var init = function () {
                         tweetCount++;
                         tweetTotalPolarity += result.score;
                         tweetPolarity = tweetTotalPolarity / tweetCount;
-                        console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + data.text);
+                        tweet = data.text.replace(/(\r\n|\n|\r)/gm,'');
+                        console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + tweet);
+                        if ( tweetCount % 10 === 0 ) {
+                            sendData(tweetCount + ';' + tweetPolarity);
+                        }
                     });
                 }
             });
@@ -66,7 +70,7 @@ var init = function () {
 var sendData = function(data){
     serialport.open( function(err) {
         if ( err ) return console.error('Could not open Serial Port...');
-        console.log('Sending to port: ' + data);
+        console.log('\n ---> Sending to serial port: ' + data + ' <---\n');
         serialport.write(data);
         serialport.close();
     });
