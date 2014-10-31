@@ -54,8 +54,10 @@ var init = function () {
                         tweetPolarity = tweetTotalPolarity / tweetCount;
                         tweet = data.text.replace(/(\r\n|\n|\r)/gm,'');
                         console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + tweet);
-                        if ( tweetCount % 10 === 0 ) {
-                            sendData(tweetCount + ';' + tweetPolarity);
+                        if ( tweetCount % 5 === 0 ) {
+                            process.nextTick(function(){
+                                sendData(tweetCount + ';' + tweetPolarity);
+                            });
                         }
                     });
                 }
