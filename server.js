@@ -30,7 +30,7 @@ var serialport = new SerialPort(
 /*
  * Define global vars
  */
-var HASHTAG = '';
+var hashtag = '';
 var updateRate = 50;
 var tweetCount = 0;
 var tweetTotalPolarity = 0;
@@ -40,13 +40,13 @@ var tweetPolarity = 0;
  * Init twitter stream and sentiment analysis.
  */
 var init = function () {
-    if ( !HASHTAG ) return console.error('No hashtag assigned');
+    if ( !hashtag ) return console.error('No hashtag assigned');
     twit.verifyCredentials(function (err, data) {
         if ( err ) return console.error('Error connecting to Twitter: ' + err);
         stream = twit.stream('statuses/filter', {
-            'track': HASHTAG
+            'track': hashtag
         }, function (stream) {
-            console.log('Monitoring Twitter for \'' + HASHTAG + '\'...  Logging Twitter traffic.');
+            console.log('Monitoring Twitter for \'' + hashtag + '\'...  Logging Twitter traffic.');
             stream.on('data', function (data) {
                 if (data.lang === 'en') {
                     sentiment(data.text, function (err, result) {
@@ -93,6 +93,6 @@ process.stdin.on('data', function (input) {
         return process.exit(1);
     }
     console.log('Initializing sentiment analysis for \"' + input + '\", hold on.....\n\n\n');
-    HASHTAG = input;
+    hashtag = input;
     init();
 });
