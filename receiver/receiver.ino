@@ -20,7 +20,7 @@ void loop() {
     Serial.println("Polarity: "+polarity);
     Serial.println();
     
-    int force = map (tweets.toInt(), 0, 1000, 0, 255);
+    int force = map (tweets.toInt(), 0, 150, 0, 255);
     int angle = map (polarity.toInt(), -5, 5, 0, 180);
     digitalWrite(fanPin, force);
     myservo.write(angle);
