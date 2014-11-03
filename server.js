@@ -31,7 +31,10 @@ var serialport = new SerialPort(
  * Define global vars
  */
 var hashtag = '';
-var updateRate = 50;
+var updateRate = 25;
+var minutes = 1;
+var intervals = 0;
+var tweetFrequency = 0;
 var tweetCount = 0;
 var tweetTotalPolarity = 0;
 var tweetPolarity = 0;
@@ -54,7 +57,7 @@ var init = function () {
                         tweetTotalPolarity += result.score;
                         tweetPolarity = tweetTotalPolarity / tweetCount;
                         tweet = data.text.replace(/(\r\n|\n|\r)/gm,'');
-                        console.log('Tweet count: ' + tweetCount + '; polarity: ' + tweetPolarity + '; tweet: ' + tweet);
+                        console.log(tweet);
                         if ( tweetCount % updateRate === 0 ) {
                             process.nextTick(function(){
                                 sendData(tweetCount + ';' + tweetPolarity);
@@ -65,6 +68,22 @@ var init = function () {
             });
         });
     });
+
+    setInterval(function () {
+        intervals++;
+        if ( intervals % 6 === 0 ) {
+            minutes++;
+        }
+
+        // Update tweet frequency
+        tweetFrequency = tweetCount / minutes;
+
+        console.log('\n\n----------------------------');
+        console.log('Tweet count: ' + tweetCount);
+        console.log('Average polarity: ' + tweetPolarity);
+        console.log('Tweet frequency: ' + tweetFrequency);
+        console.log('----------------------------\n\n');
+    }, 1000*10);
 };
 
 /*
