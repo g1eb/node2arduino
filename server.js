@@ -82,7 +82,7 @@ var sendData = function(data){
 /*
  * Present user with a welcome message, let them enter search term.
  */
-console.log('Welcome to Twitter Windmills\n');
+console.log('Welcome to Twitter Fan\n');
 console.log('Enter search term: \n');
 process.stdin.resume();
 process.stdin.setEncoding('utf8');
