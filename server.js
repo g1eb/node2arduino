@@ -58,11 +58,6 @@ var init = function () {
                         tweetPolarity = tweetTotalPolarity / tweetCount;
                         tweet = data.text.replace(/(\r\n|\n|\r)/gm,'');
                         console.log(tweet);
-                        if ( tweetCount % updateRate === 0 ) {
-                            process.nextTick(function(){
-                                sendData(tweetCount + ';' + tweetPolarity);
-                            });
-                        }
                     });
                 }
             });
@@ -74,6 +69,10 @@ var init = function () {
         if ( intervals % 6 === 0 ) {
             minutes++;
         }
+
+        process.nextTick(function(){
+            sendData(tweetCount + ';' + tweetPolarity);
+        });
 
         tweetFrequency = tweetCount / minutes;
 
