@@ -1,9 +1,9 @@
 #include <Servo.h>
-Servo myservo;
+Servo servo;
 int fanPin = 8;
 
 void setup() {
-  myservo.attach(3);
+  servo.attach(3);
   pinMode(fanPin, OUTPUT);
   Serial.begin(9600);
   Serial.println("Setup.");
@@ -23,6 +23,7 @@ void loop() {
     int force = map (frequency.toInt(), 0, 150, 0, 255);
     int angle = map (polarity.toInt(), -5, 5, 0, 180);
     digitalWrite(fanPin, force);
-    myservo.write(angle);
+    servo.write(angle);
+    delay(1500);
   }
 }
