@@ -89,8 +89,9 @@ var init = function () {
  */
 var sendData = function(data){
     serialport.open( function(err) {
-        if ( err ) return console.error('Could not open Serial Port...');
-        console.log('\n ---> Sending to serial port: ' + data + ' <---\n');
+        if ( err ) return console.error('\n ---> Could not open Serial Port... <---\n');
+
+        console.log('\n---> Sending to serial port: ' + data + ' <---\n');
         serialport.write(data);
         serialport.close();
     });
