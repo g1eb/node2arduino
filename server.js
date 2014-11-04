@@ -20,7 +20,7 @@ var twit = new twitter({
  * Serial port configs
  */
 var serialport = new SerialPort(
-    '/dev/tty.usbmodem1411', {
+    '/dev/tty.usbmodem1421', {
     baudrate: 9600,
     parity: 'none',
     dataBits: 8,
