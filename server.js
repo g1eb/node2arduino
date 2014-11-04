@@ -75,7 +75,6 @@ var init = function () {
             minutes++;
         }
 
-        // Update tweet frequency
         tweetFrequency = tweetCount / minutes;
 
         console.log('\n\n----------------------------');
